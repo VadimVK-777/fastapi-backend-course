@@ -14,7 +14,7 @@ def load_books(filename='library.json'):
         except json.JSONDecodeError:
             return []
 
-def saving_books(books, filename='library.json'):
+def save_books(books, filename='library.json'):
     """
     Сохранение списка книг в JSON-файл.
     """
@@ -52,7 +52,6 @@ def remove_book(books, title):
     """
     # Фильтруем список: оставляем только те книги, у которых название не совпадает с переданным
     return [book for book in books if book['title'].lower() != title.lower()]
-
 def search_books(books, keyword):
     """
     Поиск книг по ключевому слову (ищется в названии и авторе).
@@ -63,10 +62,9 @@ def search_books(books, keyword):
         book for book in books
         if keyword_lower in book['title'].lower() or keyword_lower in book['author'].lower()
     ]
-
 def main():
     """
-    Точка входа в программу: здесь мы загружаем книги, 
+    Точка входа в программу: здесь мы загружаем книги,
     показываем меню и обрабатываем ввод пользователя.
     """
     books = load_books()  # Загрузили список книг из JSON
@@ -94,7 +92,7 @@ def main():
             # Получаем новый список с добавленной книгой
             new_books = add_book(books, title, author, year)
             books = new_books  # Обновляем переменную, чтобы сохранить изменения
-            saving_books(books)  # Сразу сохраняем в файл
+            save_books(books)  # Сразу сохраняем в файл
             print("Книга добавлена!")
 
         elif choice == '3':
@@ -102,13 +100,12 @@ def main():
             title_to_remove = input("Введите название книги, которую хотите удалить: ").strip()
 
             new_books = remove_book(books, title_to_remove)
-            if len(new_books) > len(books):
+            if len(new_books) < len(books):
                 books = new_books
-                saving_books(books)
+                save_books(books)
                 print("Книга удалена!")
             else:
                 print("Книга с таким названием не найдена.")
-
         elif choice == '4':
             print("\nПоиск книг:")
             keyword = input("Введите ключевое слово для поиска (в названии или авторе): ").strip()
@@ -118,18 +115,10 @@ def main():
                 print(list_books(found_books))
             else:
                 print("Ничего не найдено.")
-
-        elif choice == '6':
+        elif choice == '5':
             print("Выход из программы.")
             break
-
         else:
             print("Некорректный ввод. Попробуйте ещё раз.")
-
-
-
-
-
-
 if __name__ == "__main__":
     main()
