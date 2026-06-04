@@ -1,0 +1,13 @@
+name: CI проверка
+
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  proverka:
+    name: "Тестовый вывод сообщения"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Печатаем приветствие
+        run: echo "Привет! Рабочий процесс запущен и работает."
