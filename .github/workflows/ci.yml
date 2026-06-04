@@ -2,7 +2,7 @@ name: CI проверка
 
 on:
   push:
-    branches: [main, master]
+    branches: [second-branch]
 
 jobs:
   proverka:
