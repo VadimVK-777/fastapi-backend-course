@@ -26,6 +26,9 @@ jobs:
       - name: Run ruff (lint)
         run: ruff check .
 
+      - name: Run ruff format check --diff
+        run: run ruff format --diff
+
       # Проверка форматирования (аналог black) – опционально, если вы используете ruff как форматер
       - name: Run ruff format check
         run: ruff format --check .
