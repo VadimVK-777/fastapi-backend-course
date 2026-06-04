@@ -1,13 +1,31 @@
-name: CI проверка
+# .github/workflows/ci.yml
+name: Code Quality
 
 on:
   push:
-    branches: [second-branch]
+    branches: [main, master, second-branch]
+  pull_request:
+    branches: [main, master, second-branch]
 
 jobs:
-  proverka:
-    name: "Тестовый вывод сообщения"
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Печатаем приветствие
-        run: echo "Привет! Рабочий процесс запущен и работает."
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install ruff
+        run: pip install ruff
+
+      # Линтинг (проверка на ошибки, стиль, неиспользуемые импорты и т.д.)
+      - name: Run ruff (lint)
+        run: ruff check .
+
+      # Проверка форматирования (аналог black) – опционально, если вы используете ruff как форматер
+      - name: Run ruff format check
+        run: ruff format --check .
